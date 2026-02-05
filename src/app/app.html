@@ -1,15 +1,26 @@
-<header>
-  <nav>
-    <a routerLink="/">Home</a> |
-    <a routerLink="/admin">Admin</a>
-  </nav>
+<header class="bg-blue-600 text-white shadow-lg">
+  <div class="container mx-auto px-4 py-4">
+    <nav class="flex justify-left items-center">
+      <a routerLink="/">Home</a> |
+      <a routerLink="/admin">Admin</a>
+    </nav>
+  </div>
 </header>
-<main>
-  <router-outlet></router-outlet>
+<main class="flex-grow bg-gray-100">
+  <div class="container mx-auto px-4 py-8">
+    <h1 class="text-3xl font-bold underline">
+    Hello world!
+    </h1>
+    <router-outlet></router-outlet>
+  </div>
 </main>
-<footer>
-  <nav>
+<footer class="bg-gray-800 text-white">
+
+  <div class="container mx-auto px-4 py-6 text-center">
+      <nav>
     <a routerLink="/">Home</a> |
     <a routerLink="/admin">Admin</a>
   </nav>
+            <p>&copy; 2026 My Website. All rights reserved.</p>
+        </div>
 </footer>
