@@ -1,7 +1,48 @@
-<form [formGroup]="form" (ngSubmit)="onSubmit()">
-  <label for="first-name">First Name: </label>
-  <input id="first-name" type="text" formControlName="firstName" />
-  <label for="last-name">Last Name: </label>
-  <input id="last-name" type="text" formControlName="lastName" />
-  <button type="submit" [disabled]="!form.valid">Submit</button>
+<form [formGroup]="form" (ngSubmit)="onSubmit()" novalidate>
+  <div>
+    <label>Name</label>
+    <input formControlName="name" />
+    <div class="error" *ngIf="form.get('name')?.invalid && (form.get('name')?.touched || form.get('name')?.dirty)">
+      <div *ngIf="form.get('name')?.errors?.['required']">Name is required.</div>
+      <div *ngIf="form.get('name')?.errors?.['minlength']">Name must be at least 3 characters.</div>
+      <div *ngIf="form.get('name')?.errors?.['forbiddenName']">This name is not allowed.</div>
+    </div>
+  </div>
+
+  <div>
+    <label>Email</label>
+    <input formControlName="email" />
+    <div class="error" *ngIf="form.get('email')?.invalid && (form.get('email')?.touched || form.get('email')?.dirty)">
+      <div *ngIf="form.get('email')?.errors?.['required']">Email is required.</div>
+      <div *ngIf="form.get('email')?.errors?.['email']">Enter a valid email address.</div>
+    </div>
+  </div>
+
+  <div>
+    <label>Username</label>
+    <input formControlName="username" />
+    <div class="error" *ngIf="form.get('username')?.invalid && (form.get('username')?.touched || form.get('username')?.dirty)">
+      <div *ngIf="form.get('username')?.errors?.['required']">Username is required.</div>
+      <div *ngIf="form.get('username')?.errors?.['usernameTaken']">This username is already taken.</div>
+    </div>
+    <div class="hint" *ngIf="form.get('username')?.pending">Checking availability...</div>
+  </div>
+
+  <div formArrayName="items">
+    <label>Items</label>
+    <div *ngFor="let ctrl of items.controls; let i = index">
+      <div>
+        <input [formControlName]="i" />
+        <button type="button" (click)="removeItem(i)" [disabled]="items.length === 1">Remove</button>
+      </div>
+      <div class="error" *ngIf="ctrl.invalid && (ctrl.touched || ctrl.dirty)">
+        <div *ngIf="ctrl.errors?.['required']">Item is required.</div>
+      </div>
+    </div>
+    <button type="button" (click)="addItem()">Add Item</button>
+  </div>
+
+  <div style="margin-top:1rem;">
+    <button type="submit">Submit</button>
+  </div>
 </form>
