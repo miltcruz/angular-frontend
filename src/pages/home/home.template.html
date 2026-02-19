@@ -1,4 +1,36 @@
 <h1>
     Welcome to the Home Page!
 </h1>
+
+<input
+  [(ngModel)]="query"
+  placeholder="Search by name..."
+/>
+<ul>
+  @for (item of FilteredObjects; track item.id) {
+    <li>{{ item.name }}</li>
+  } @empty {
+    <li>No matching results.</li>
+  }
+</ul>
+
+
+@if (api.loading()) {
+    <p>Loading objects...</p>
+}
+
+@if (api.error()) {
+    <p>Error loading objects: {{ api.error() }}</p>
+}
+
+@if (!api.loading() && !api.error() && objects.length > 0) {
+    <ul>
+        @for (object of objects; track object.id) {
+            <li> 
+                Name: {{ object?.name }}, id: {{ object?.id }}, Color: {{ object?.data?.['color'] || 'N/A' }}
+            </li>
+        }
+    </ul>
+}
+
 <app-input-form />
