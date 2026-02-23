@@ -2,14 +2,15 @@
   <div class="container mx-auto px-4 py-4">
     <nav class="flex justify-left items-center">
       <a routerLink="/">Home</a> |
-      <a routerLink="/admin">Admin</a>
+      <a routerLink="/admin">Admin</a> |
+      <a routerLink="/phone/list">Phones</a>
     </nav>
   </div>
 </header>
 <main class="flex-grow bg-gray-100">
   <div class="container mx-auto px-4 py-8">
-    <h1 class="text-3xl font-bold underline">
-    Hello world!
+    <h1 class="text-3xl">
+     {{title()}}
     </h1>
     <router-outlet></router-outlet>
   </div>
@@ -18,9 +19,10 @@
 
   <div class="container mx-auto px-4 py-6 text-center">
       <nav>
-    <a routerLink="/">Home</a> |
-    <a routerLink="/admin">Admin</a>
-  </nav>
-            <p>&copy; 2026 My Website. All rights reserved.</p>
-        </div>
+        <a routerLink="/">Home</a> |
+        <a routerLink="/admin">Admin</a> |
+        <a routerLink="/phone/list">Phones</a>
+      </nav>
+      <p>&copy; 2026 My Website. All rights reserved.</p>
+  </div>
 </footer>

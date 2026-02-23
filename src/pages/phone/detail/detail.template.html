@@ -1,0 +1,32 @@
+<h1>
+   Phone Detail Page
+</h1>
+
+@if (api.loading()) {
+    <p>Loading object...</p>
+}
+
+@if (api.error()) {
+    <p>Error loading object: {{ api.error() }}</p>
+}
+
+@if (object) {
+    <div>
+        <h2>{{ object.name }}</h2>
+        <p>ID: {{ object.id }}</p>
+        <p>Color: {{ object.data['color'] || 'N/A' }}</p>
+        <p>Capacity: {{ object.data['capacity'] || 'N/A' }}</p>
+        <p>Capacity GB: {{ object.data['capacity GB'] || 'N/A' }}</p>
+        <p>Price: {{ object.data['price'] || 'N/A' }}</p>
+        <p>Year: {{ object.data['year'] || 'N/A' }}</p>
+        <p>CPU Model: {{ object.data['CPU model'] || 'N/A' }}</p>
+        <p>Hard Disk Size: {{ object.data['Hard disk size'] || 'N/A' }}</p>
+        <p>Description: {{ object.data['Description'] || 'N/A' }}</p>
+        <p>Screen Size: {{ object.data['Screen size'] || 'N/A' }}</p>
+        <p>Generation: {{ object.data['Generation'] || 'N/A' }}</p>
+    </div>
+    <div>
+        <button routerLink="/phone">Back to List</button>
+        <button (click)="deleteObject()">Delete</button>
+    </div>
+}

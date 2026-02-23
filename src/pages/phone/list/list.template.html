@@ -1,0 +1,31 @@
+<h2>
+    Phone List Page
+</h2>
+
+@if (api.loading()) {
+    <p>Loading objects...</p>
+}
+
+@if (api.error()) {
+    <p>Error loading objects: {{ api.error() }}</p>
+}
+
+<div>
+    <input [(ngModel)]="query" placeholder="Search by name..." />
+    <button (click)="sortAscending()">Sort A to Z</button>
+    <button (click)="sortDescending()">Sort Z to A</button>
+</div>
+
+<ul>
+    @for (item of paginatedObjects(); track item.id) {
+        <li><a routerLink="/phone/detail/{{ item.id }}">{{ item.name }}</a></li>
+    } @empty {
+        <li>No matching results.</li>
+    }
+</ul>
+
+<div>
+    <button (click)="previousPage()" [disabled]="currentPage === 1">Previous</button>
+    <span>Page {{ currentPage }} of {{ totalPages() }}</span>
+    <button (click)="nextPage()" [disabled]="currentPage === totalPages()">Next</button>
+</div>
