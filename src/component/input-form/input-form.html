@@ -6,9 +6,11 @@
       @if (form.get('name')?.errors?.['required']) {
         <div class="error">Name is required.</div>
       }
+
       @if (form.get('name')?.errors?.['minlength']) {
         <div class="error">Name must be at least 3 characters.</div>
       }
+
       @if (form.get('name')?.errors?.['forbiddenName']) {
         <div class="error">This name is not allowed.</div>
       }
@@ -34,17 +36,18 @@
   <div>
     <label>Username</label>
     <input formControlName="username" />
+    @if (form.get('username')?.invalid && (form.get('username')?.touched || form.get('username')?.dirty)) {
+      <div class="error">
+        @if (form.get('username')?.errors?.['required']) {
+          <div>Username is required.</div>
+        }
 
-    <div class="error" *ngIf="form.get('username')?.invalid && (form.get('username')?.touched || form.get('username')?.dirty)">
-      
-      @if (form.get('username')?.errors?.['required']) {
-        <div>Username is required.</div>
-      }
+        @if (form.get('username')?.errors?.['usernameTaken']) {
+          <div>This username is already taken.</div>
+        }
+      </div>
+    }
 
-      @if (form.get('username')?.errors?.['usernameTaken']) {
-        <div>This username is already taken.</div>
-      }
-    </div>
     @if (form.get('username')?.pending) {
       <div class="hint">Checking availability...</div>
     }
@@ -52,15 +55,21 @@
 
   <div formArrayName="items">
     <label>Items</label>
-    <div *ngFor="let ctrl of items.controls; let i = index">
+    @for (item of items.controls; let i = $index; track item) {
       <div>
         <input [formControlName]="i" />
         <button type="button" (click)="removeItem(i)" [disabled]="items.length === 1">Remove</button>
       </div>
-      <div class="error" *ngIf="ctrl.invalid && (ctrl.touched || ctrl.dirty)">
-        <div *ngIf="ctrl.errors?.['required']">Item is required.</div>
+      @if (item.invalid && (item.touched || item.dirty)) {
+        <div class="error">
+          @if (item.errors?.['required']) {
+            <div>Item is required.</div>
+          }
       </div>
-    </div>
+    }
+    } @empty {
+      <p>No items. Please add at least one.</p>
+    }
     <button type="button" (click)="addItem()">Add Item</button>
   </div>
 
