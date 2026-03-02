@@ -1,28 +1,83 @@
+<!--
+  app.html – the root shell that wraps every page.
+
+  The header nav changes depending on auth state:
+    • Logged-out  → show "Sign in" and "Register" links
+    • Logged-in   → show the user's email, their role badge, and a Sign-out button
+    • Admin only  → show the "Admin" link (hidden from regular users)
+-->
+
 <header class="bg-blue-600 text-white shadow-lg">
   <div class="container mx-auto px-4 py-4">
-    <nav class="flex justify-left items-center">
-      <a routerLink="/">Home</a> |
-      <a routerLink="/admin">Admin</a> |
-      <a routerLink="/phone/list">Phones</a>
+    <nav class="flex justify-between items-center gap-4 flex-wrap">
+
+      <!-- Left side: main navigation -->
+      <div class="flex items-center gap-3 text-sm font-medium">
+        <a routerLink="/" class="hover:underline">Home</a>
+        <span class="opacity-40">|</span>
+        <a routerLink="/phone/list" class="hover:underline">Phones</a>
+
+        <!--
+          Role-based UI: only render the Admin link when the logged-in user is
+          an admin.  Non-admins never see this link, and the route is also
+          protected by adminGuard so a direct URL visit is blocked too.
+        -->
+        @if (auth.getRole() === 'admin') {
+          <span class="opacity-40">|</span>
+          <a routerLink="/admin" class="hover:underline">Admin Panel</a>
+        }
+      </div>
+
+      <!-- Right side: auth controls -->
+      <div class="flex items-center gap-3 text-sm">
+
+        <!-- When logged IN: show email + role badge + sign-out button -->
+        @if (auth.isLoggedIn()) {
+          <span class="opacity-80 hidden sm:inline">
+            {{ auth.currentUser()?.email }}
+          </span>
+          <span class="rounded bg-blue-800 px-2 py-0.5 text-xs uppercase tracking-wide font-semibold">
+            {{ auth.currentUser()?.role }}
+          </span>
+          <button
+            (click)="auth.logout()"
+            class="rounded bg-white/20 px-3 py-1 hover:bg-white/30 transition-colors font-medium"
+          >
+            Sign out
+          </button>
+        }
+
+        <!-- When logged OUT: show sign-in and register links -->
+        @if (!auth.isLoggedIn()) {
+          <a routerLink="/login"    class="hover:underline">Sign in</a>
+          <a
+            routerLink="/register"
+            class="rounded bg-white/20 px-3 py-1 hover:bg-white/30 transition-colors font-medium"
+          >
+            Register
+          </a>
+        }
+
+      </div>
     </nav>
   </div>
 </header>
+
 <main class="flex-grow bg-gray-100">
   <div class="container mx-auto px-4 py-8">
-    <h1 class="text-3xl">
-     {{title()}}
-    </h1>
+    <!-- router-outlet is the slot where the current page component renders -->
     <router-outlet></router-outlet>
   </div>
 </main>
-<footer class="bg-gray-800 text-white">
 
+<footer class="bg-gray-800 text-white">
   <div class="container mx-auto px-4 py-6 text-center">
-      <nav>
-        <a routerLink="/">Home</a> |
-        <a routerLink="/admin">Admin</a> |
-        <a routerLink="/phone/list">Phones</a>
-      </nav>
-      <p>&copy; 2026 My Website. All rights reserved.</p>
+    <nav class="text-sm mb-2">
+      <a routerLink="/" class="hover:underline">Home</a> |
+      <a routerLink="/phone/list" class="hover:underline">Phones</a> |
+      <a routerLink="/login" class="hover:underline">Sign in</a> |
+      <a routerLink="/register" class="hover:underline">Register</a>
+    </nav>
+    <p class="text-xs text-gray-400">&copy; 2026 My Website. All rights reserved.</p>
   </div>
 </footer>
