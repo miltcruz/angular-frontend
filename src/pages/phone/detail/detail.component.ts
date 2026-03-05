@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, inject } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
 import { ApiService } from "../../../services/api.service";
 import { APIResponse } from "../../../models/api.object";
@@ -10,11 +10,14 @@ import { Router } from '@angular/router';
   templateUrl: "./detail.template.html",
   imports: [FormsModule],
 })
-export class PhoneDetailComponent implements OnInit { 
+export class PhoneDetailComponent implements OnInit {
+  api = inject(ApiService);
+  private route = inject(ActivatedRoute);
+  private router = inject(Router);
+ 
 
   object: APIResponse | null = null; 
-  private id: string = '';
-  constructor(public api: ApiService, private route: ActivatedRoute, private router: Router) {}
+  private id = '';
 
   ngOnInit(): void {
     this.route.params.subscribe(params => {

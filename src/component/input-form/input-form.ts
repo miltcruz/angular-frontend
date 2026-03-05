@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators, ValidatorFn, AbstractControl, ValidationErrors, AsyncValidatorFn, FormArray } from '@angular/forms';
 import { Observable, of } from 'rxjs';
@@ -11,9 +11,11 @@ import { delay, map } from 'rxjs/operators';
   templateUrl: './input-form.html'
 })
 export class InputFormComponent {
+  private fb = inject(FormBuilder);
+
   form: FormGroup;
 
-  constructor(private fb: FormBuilder) {
+  constructor() {
     this.form = this.fb.group({
       name: ['', [Validators.required, Validators.minLength(3), this.forbiddenNameValidator(/admin/i)]],
       email: ['', [Validators.required, Validators.email]],

@@ -13,12 +13,13 @@
    "message": "Object with id = 6, has been deleted."
 }
 */
+
+type dataObject = Record<string, string | number>;
+
 export interface APIResponse {
     id: string;
     name: string;
-    data: {
-        [key: string]: string | number;
-    };
+    data: dataObject;
     createdAt: string;
     updatedAt: string;
     message: string;
@@ -39,7 +40,5 @@ export interface APIResponse {
 */
 export interface APIRequest {
     name: string;
-    data: {
-        [key: string]: string | number;
-    };
+    data: dataObject;
 }

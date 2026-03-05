@@ -1,5 +1,5 @@
 import { HttpClient } from "@angular/common/http";
-import { Injectable, signal } from "@angular/core";
+import { Injectable, signal, inject } from "@angular/core";
 import { APIResponse } from "../models/api.object";
 import { catchError, finalize } from 'rxjs/operators';
 import { throwError } from 'rxjs';
@@ -7,11 +7,11 @@ import { throwError } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class ApiService {
+private http = inject(HttpClient);
+
 private base = 'https://api.restful-api.dev/objects';
 readonly loading = signal(false);
 readonly error = signal<string | null>(null);
-
-constructor(private http: HttpClient) {}
     
     getObjects() {
         this.loading.set(true);

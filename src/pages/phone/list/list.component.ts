@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, inject } from "@angular/core";
 import { ApiService } from "../../../services/api.service";
 import { APIResponse } from "../../../models/api.object";
 import { FormsModule } from '@angular/forms';
@@ -10,14 +10,14 @@ import { CommonModule } from '@angular/common';
   templateUrl: "./list.template.html",
   imports: [FormsModule, RouterLink, CommonModule],
 })
-export class PhoneListComponent implements OnInit { 
+export class PhoneListComponent implements OnInit {
+  api = inject(ApiService);
+ 
 
   objects: APIResponse[] = [];
-  query: string = '';
+  query = '';
   currentPage = 1;
   itemsPerPage = 3;
-
-  constructor(public api: ApiService) {}
 
   ngOnInit(): void {
       this.loadObjects();

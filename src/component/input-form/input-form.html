@@ -1,6 +1,6 @@
 <form [formGroup]="form" (ngSubmit)="onSubmit()" novalidate>
   <div>
-    <label>Name</label>
+    <label for="name">Name</label>
     <input formControlName="name" />
     @if (form.get('name')?.invalid && (form.get('name')?.touched || form.get('name')?.dirty)) {
       @if (form.get('name')?.errors?.['required']) {
@@ -18,8 +18,8 @@
   </div>
 
   <div>
-    <label>Email</label>
-    <input formControlName="email" />
+    <label for="email">Email</label>
+    <input formControlName="email" id="email" />
     @if (form.get('email')?.invalid && (form.get('email')?.touched || form.get('email')?.dirty)) {
       <div class="error">
         @if (form.get('email')?.errors?.['required']) {
@@ -34,8 +34,8 @@
   </div>
 
   <div>
-    <label>Username</label>
-    <input formControlName="username" />
+    <label for="username">Username</label>
+    <input formControlName="username" id="username" />
     @if (form.get('username')?.invalid && (form.get('username')?.touched || form.get('username')?.dirty)) {
       <div class="error">
         @if (form.get('username')?.errors?.['required']) {
@@ -54,10 +54,10 @@
   </div>
 
   <div formArrayName="items">
-    <label>Items</label>
+    <label for="items">Items</label>
     @for (item of items.controls; let i = $index; track item) {
       <div>
-        <input [formControlName]="i" />
+        <input [formControlName]="i" id="items" />
         <button type="button" (click)="removeItem(i)" [disabled]="items.length === 1">Remove</button>
       </div>
       @if (item.invalid && (item.touched || item.dirty)) {
